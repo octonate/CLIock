@@ -3,10 +3,9 @@
 #include <string.h>
 #include <math.h>
 #include "clock.c"
-
 #define BUF_SIZE 128
 
-char *clrs[] = { "\e[0m", "\e[30m", "\e[31m", "\e[32m", "\e[33m", "\e[34m", "\e[35m", "\e[36m", "\e[37m", "\e[90m", "\e[91m", "\e[92m", "\e[93m", "\e[94m", "\e[95m", "\e[96m", "\e[97m" };
+char *clrs[] = { "\033[0m", "\033[30m", "\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m", "\033[37m", "\033[90m", "\033[91m", "\033[92m", "\033[93m", "\033[94m", "\033[95m", "\033[96m", "\033[97m" };
 enum { Z, K, R, G, Y, B, M, C, W, BK, BR, BG, BY, BB, BM, BC, BW };
 
 char *statuses[] = { "Charging", "Discharging", "Full" };
@@ -88,7 +87,7 @@ void printBattery(struct PSData *ps) {
     int mins = 60 * (timeLeft - floor(timeLeft));
 
 
-    printf("\n%sbat:%s\n", clrs[C], clrs[Z]);
+    printf("%sbat:%s\n", clrs[C], clrs[Z]);
     printf("%s", batDisp);
     printf("%s", clrs[C]);
     printf("%.1f%% %s(%s)\n", ps->capacity, clrs[BK], statuses[ps->status]);
