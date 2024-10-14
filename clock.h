@@ -1,6 +1,6 @@
-#define CLOCK_BUF_SIZE 256
+#define CLOCK_GRAPHIC_SIZE 256
 
-const char clockFrame[CLOCK_BUF_SIZE] = "\
+const char clockFrame[CLOCK_GRAPHIC_SIZE] = "\
     \\----|----/    \n\
    /           \\   \n\
   -             -  \n\
@@ -11,7 +11,7 @@ const char clockFrame[CLOCK_BUF_SIZE] = "\
    \\           /   \n\
     /----|----\\    \n";
 
-const char clockBlank[CLOCK_BUF_SIZE] = "\
+const char clockBlank[CLOCK_GRAPHIC_SIZE] = "\
                    \n\
                    \n\
                    \n\
@@ -22,7 +22,7 @@ const char clockBlank[CLOCK_BUF_SIZE] = "\
                    \n\
                    \n";
 
-const char hrHands[][CLOCK_BUF_SIZE] = {"\
+const char hrHands[][CLOCK_GRAPHIC_SIZE] = {"\
 ................... \
 ................... \
 .........^......... \
@@ -99,7 +99,7 @@ const char hrHands[][CLOCK_BUF_SIZE] = {"\
 ................... \
 ................... "};
 
-const char minHands[][CLOCK_BUF_SIZE] = {"\
+const char minHands[][CLOCK_GRAPHIC_SIZE] = {"\
 .........|......... \
 .........|......... \
 .........|......... \

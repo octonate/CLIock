@@ -3,7 +3,9 @@
 #include <string.h>
 #include <math.h>
 #include "clock.c"
+
 #define BUF_SIZE 128
+#define BAT_GRAPHIC_SIZE 256
 
 char *clrs[] = { "\033[0m", "\033[30m", "\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m", "\033[37m", "\033[90m", "\033[91m", "\033[92m", "\033[93m", "\033[94m", "\033[95m", "\033[96m", "\033[97m" };
 enum { Z, K, R, G, Y, B, M, C, W, BK, BR, BG, BY, BB, BM, BC, BW };
@@ -54,7 +56,8 @@ void psInit(struct PSData *ps, FILE *fp) {
     ps->currentNow = (double) 1000000 * ps->powerNow / ps->voltageNow;
 }
 
-void printBattery(struct PSData *ps) {
+char *genBatGraphic(struct PSData *ps) {
+    char *batGraphic = malloc(BAT_GRAPHIC_SIZE * sizeof(char));
     char *batColor;
     if (ps->capacity > 60) {
         batColor = clrs[G];
@@ -65,17 +68,18 @@ void printBattery(struct PSData *ps) {
     }
 
     int width = round((double) ps->capacity / 5);
-    char batDisp[BUF_SIZE];
 
-    snprintf(batDisp, BUF_SIZE, "[%s", batColor);
+    snprintf(batGraphic, BAT_GRAPHIC_SIZE, "%sbat:%s\n", clrs[C], clrs[Z]);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "[%s", batColor);
+
     for (int i = 0; i < width; i++) {
-        snprintf(batDisp + strlen(batDisp), BUF_SIZE, "|");
+        snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "|");
     }
-    snprintf(batDisp + strlen(batDisp), BUF_SIZE, "%s", clrs[Z]);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%s", clrs[Z]);
     for (int i = 0; i < 20 - width; i++) {
-        snprintf(batDisp + strlen(batDisp), BUF_SIZE, "-");
+        snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "-");
     }
-    snprintf(batDisp + strlen(batDisp), BUF_SIZE, "]\n");
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "]\n");
 
     double timeLeft;
     if (ps->status == CHARGING) {
@@ -87,17 +91,16 @@ void printBattery(struct PSData *ps) {
     int mins = 60 * (timeLeft - floor(timeLeft));
 
 
-    printf("%sbat:%s\n", clrs[C], clrs[Z]);
-    printf("%s", batDisp);
-    printf("%s", clrs[C]);
-    printf("%.1f%% %s(%s)\n", ps->capacity, clrs[BK], statuses[ps->status]);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%s", clrs[C]);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%.1f%% %s(%s)\n", ps->capacity, clrs[BK], statuses[ps->status]);
     if (ps->status != FULL) {
-        printf("%02d:%02d until %s\n", hrs, mins, ps->status == CHARGING ? "full" : "depleted");
+        snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%02d:%02d until %s\n", hrs, mins, ps->status == CHARGING ? "full" : "depleted");
     }
-    printf("%.2fW, ", (double) ps->powerNow / 1000000);
-    printf("%.2fV, ", (double) ps->voltageNow / 1000000);
-    printf("%.2fA\n", (double) ps->currentNow / 1000000);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%.2fW, ", (double) ps->powerNow / 1000000);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%.2fV, ", (double) ps->voltageNow / 1000000);
+    snprintf(batGraphic + strlen(batGraphic), BAT_GRAPHIC_SIZE, "%.2fA\n", (double) ps->currentNow / 1000000);
     
+    return batGraphic;
 }
 
 
@@ -109,12 +112,19 @@ int main() {
         printf("File not opened");
         exit(0);
     }
-    
-    struct PSData supplyData;
-    printClock();
-    psInit(&supplyData, fptr);
-    printBattery(&supplyData);
 
+    time_t t = time(NULL);
+    struct tm curTime = *localtime(&t);
+    char *clockGraphic = genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec);
+    printf("%s\n", clockGraphic);
+
+    struct PSData supplyData;
+    psInit(&supplyData, fptr);
+    char *batGraphic = genBatGraphic(&supplyData);
+    printf("%s", batGraphic);
+
+    free(clockGraphic);
+    free(batGraphic);
     fclose(fptr);
     printf("\n");
     

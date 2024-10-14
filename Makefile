@@ -7,6 +7,5 @@ all: myfelch
 myfelch: myfelch.c clock.c clock.h
 	$(CC) $(CFLAGS) $(LFLAGS) myfelch.c -o myfelch
 
-
 clean: 
 	rm myfelch
