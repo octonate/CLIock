@@ -3,10 +3,21 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <stdarg.h>
 #include "clock.h"
 
-void flipHor(char str[CLOCK_GRAPHIC_SIZE]) {
-    char flipped[CLOCK_GRAPHIC_SIZE];
+size_t strlcatf(char *dst, size_t size, const char *fmt, ...) {
+    va_list args;
+    size_t dstLen = strnlen(dst, size);
+    char *fmtPos = dst + strlen(dst);
+    va_start(args, fmt);
+    size_t fmtLen = vsnprintf(fmtPos, size - strlen(dst), fmt, args);
+    va_end(args);
+    return dstLen + fmtLen;
+}
+
+void flipHor(char str[CLOCK_SIZE]) {
+    char flipped[CLOCK_SIZE];
     int pos = 0;
     char *tok = strtok(str, "\n");
     while (tok != NULL) {
@@ -35,11 +46,11 @@ void flipHor(char str[CLOCK_GRAPHIC_SIZE]) {
         tok = strtok(NULL, "\n");
     }
     flipped[pos] = '\0';
-    strncpy(str, flipped, CLOCK_GRAPHIC_SIZE);
+    strncpy(str, flipped, CLOCK_SIZE);
 }
 
-void clockAddHand(char dest[CLOCK_GRAPHIC_SIZE], const char hand[CLOCK_GRAPHIC_SIZE]) {
-    for (int i = 0; i < CLOCK_GRAPHIC_SIZE; i++) {
+void clockAddHand(char dest[CLOCK_SIZE], const char hand[CLOCK_SIZE]) {
+    for (int i = 0; i < CLOCK_SIZE; i++) {
         if (hand[i] != '.' && hand[i] != ' ') {
             dest[i] = hand[i];
         }
@@ -47,13 +58,13 @@ void clockAddHand(char dest[CLOCK_GRAPHIC_SIZE], const char hand[CLOCK_GRAPHIC_S
 }
 
 char *genClockGraphic(int hrs, int mins, int secs) {
+    char *clockDisp = malloc(CLOCK_SIZE * sizeof(char));
     int hrsStd = hrs % 12;
-    char *clockDisp = malloc(CLOCK_GRAPHIC_SIZE * sizeof(char));
-    char hrHand[CLOCK_GRAPHIC_SIZE];
-    char minHand[CLOCK_GRAPHIC_SIZE];
-    strncpy(clockDisp, clockFrame, CLOCK_GRAPHIC_SIZE);
-    strncpy(hrHand, clockBlank, CLOCK_GRAPHIC_SIZE);
-    strncpy(minHand, clockBlank, CLOCK_GRAPHIC_SIZE);
+    char hrHand[CLOCK_SIZE];
+    char minHand[CLOCK_SIZE];
+    strncpy(clockDisp, clockFrame, CLOCK_SIZE);
+    strncpy(hrHand, clockBlank, CLOCK_SIZE);
+    strncpy(minHand, clockBlank, CLOCK_SIZE);
 
     int minHandPos = (int) round((double) (60 * mins + secs) / 150) %  24;
     
@@ -75,6 +86,6 @@ char *genClockGraphic(int hrs, int mins, int secs) {
     clockAddHand(clockDisp, minHand);
     clockAddHand(clockDisp, hrHand);
     
-    snprintf(clockDisp + strlen(clockDisp), CLOCK_GRAPHIC_SIZE, "%02d:%02d:%02d\n", hrs, mins, secs);
+    strlcatf(clockDisp, CLOCK_SIZE, "%02d:%02d:%02d\n", hrs, mins, secs);
     return clockDisp;
 }
