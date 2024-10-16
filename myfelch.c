@@ -89,13 +89,13 @@ void psInit(struct PSData *ps) {
 
 char *genBatGraphic(struct PSData *ps) {
     char *batGraphic = malloc(BAT_SIZE * sizeof(char));
-    const char *batColor;
+    enum Color batClr;
     if (ps->capacity > 60) {
-        batColor = clrs[G];
+        batClr = G;
     } else if (ps->capacity > 25) {
-        batColor = clrs[Y];
+        batClr = Y;
     } else {
-        batColor = clrs[R];
+        batClr = R;
     }
 
     double timeLeft;
@@ -109,7 +109,7 @@ char *genBatGraphic(struct PSData *ps) {
 
     snprintf(batGraphic, BAT_SIZE, "%sbat:\n%s", clrs[C], clrs[Z]);
 
-    strlcatf(batGraphic, BAT_SIZE, "[%s", batColor);
+    strlcatf(batGraphic, BAT_SIZE, "[%s", clrs[batClr]);
     int pipeNum = round((double) ps->capacity / 5);
     for (int i = 0; i < pipeNum; i++) {
         strlcatf(batGraphic, BAT_SIZE, "|");
@@ -175,7 +175,7 @@ int main() {
     time_t t = time(NULL);
     struct tm curTime = *localtime(&t);
     char *clockGraphic = genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec);
-    char *clock7_35_28 = genClockGraphic(7, 05, 28);
+    char *clock0_35_28 = genClockGraphic(12, 05, 28);
 
     struct PSData supplyData;
     psInit(&supplyData);
@@ -186,7 +186,7 @@ int main() {
 
     free(clockGraphic);
     free(batGraphic);
-    free(clock7_35_28);
+    free(clock0_35_28);
     printf("\n");
 
     
