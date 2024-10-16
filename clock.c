@@ -7,11 +7,11 @@
 #include "clock.h"
 #include "colors.h"
 
-const enum Clr hrClr = C;
-const enum Clr minClr = G;
-const enum Clr centerClr = BK;
-const enum Clr frameClr = K;
-const enum Clr tickClr = BK;
+const enum Color hrClr = C;
+const enum Color minClr = G;
+const enum Color centerClr = BK;
+const enum Color frameClr = K;
+const enum Color tickClr = BK;
 
 
 size_t strlcatf(char *dst, size_t size, const char *fmt, ...) {
@@ -57,35 +57,25 @@ void flipHor(char str[CLOCK_SIZE]) {
     strncpy(str, flipped, CLOCK_SIZE);
 }
 
-void clockAddHand(char dest[CLOCK_SIZE], const char hand[CLOCK_SIZE]) {
-    for (int i = 0; i < CLOCK_SIZE; i++) {
-        if (hand[i] != '.' && hand[i] != ' ') {
-            dest[i] = hand[i];
-        }
-    }
-}
-
 char *genClockGraphic(int hrs, int mins, int secs) {
     char *clockDisp = calloc(sizeof(char), CLOCK_SIZE);
     int hrsStd = hrs % 12;
     char hrHand[CLOCK_SIZE];
     char minHand[CLOCK_SIZE];
-    strncpy(hrHand, clockBlank, CLOCK_SIZE);
-    strncpy(minHand, clockBlank, CLOCK_SIZE);
 
     int minHandPos = (int) round((double) (60 * mins + secs) / 150) %  24;
     
     if (minHandPos <= 12) {
-        clockAddHand(minHand, minHands[minHandPos]);
+        strncpy(minHand, minHands[minHandPos], CLOCK_SIZE);
     } else {
-        clockAddHand(minHand, minHands[24 - minHandPos]);
+        strncpy(minHand, minHands[24 - minHandPos], CLOCK_SIZE);
         flipHor(minHand);
     }
 
     if (hrsStd <= 6) {
-        clockAddHand(hrHand, hrHands[hrsStd]);
+        strncpy(hrHand, hrHands[hrsStd], CLOCK_SIZE);
     } else {
-        clockAddHand(hrHand, hrHands[12 - hrsStd]);
+        strncpy(hrHand, hrHands[12 - hrsStd], CLOCK_SIZE);
         flipHor(hrHand);
     }
 
