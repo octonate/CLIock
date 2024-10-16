@@ -4,15 +4,26 @@
 #define CLOCK_SIZE 1536
 
 const char clockFrame[CLOCK_SIZE] = "\
-    \\----|----/    \n\
+     ---- ----     \n\
    /           \\   \n\
-  -             -  \n\
+                   \n\
  /               \\ \n\
--        o        -\n\
+         o         \n\
  \\               / \n\
-  -             -  \n\
+                   \n\
    \\           /   \n\
-    /----|----\\    \n";
+     ---- ----     \n";
+
+const char clockTicks[CLOCK_SIZE] = "\
+    \\    |    /     \
+                    \
+  -             -   \
+                    \
+-        o        - \
+                    \
+  -             -   \
+                    \
+    /    |    \\     ";
 
 const char clockBlank[CLOCK_SIZE] = "\
                    \n\
