@@ -5,6 +5,13 @@
 #include <time.h>
 #include <stdarg.h>
 #include "clock.h"
+#include "colors.h"
+
+const enum Clr hrClr = BG;
+const enum Clr minClr = G;
+const enum Clr centerClr = BK;
+const enum Clr frameClr = BK;
+
 
 size_t strlcatf(char *dst, size_t size, const char *fmt, ...) {
     va_list args;
@@ -58,17 +65,15 @@ void clockAddHand(char dest[CLOCK_SIZE], const char hand[CLOCK_SIZE]) {
 }
 
 char *genClockGraphic(int hrs, int mins, int secs) {
-    char *clockDisp = malloc(CLOCK_SIZE * sizeof(char));
+    char *clockDisp = calloc(sizeof(char), CLOCK_SIZE);
     int hrsStd = hrs % 12;
     char hrHand[CLOCK_SIZE];
     char minHand[CLOCK_SIZE];
-    strncpy(clockDisp, clockFrame, CLOCK_SIZE);
     strncpy(hrHand, clockBlank, CLOCK_SIZE);
     strncpy(minHand, clockBlank, CLOCK_SIZE);
 
     int minHandPos = (int) round((double) (60 * mins + secs) / 150) %  24;
     
-
     if (minHandPos <= 12) {
         clockAddHand(minHand, minHands[minHandPos]);
     } else {
@@ -83,9 +88,19 @@ char *genClockGraphic(int hrs, int mins, int secs) {
         flipHor(hrHand);
     }
 
-    clockAddHand(clockDisp, minHand);
-    clockAddHand(clockDisp, hrHand);
     
-    strlcatf(clockDisp, CLOCK_SIZE, "%02d:%02d:%02d\n", hrs, mins, secs);
+    for (int i = 0; i < strlen(hrHand); i++) {
+        if (clockFrame[i] == 'o') {
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[centerClr], clockFrame[i]);
+        } else if (hrHand[i] == ' ' && minHand[i] == ' ') {
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[frameClr], clockFrame[i]);
+        } else if (hrHand[i] != ' ') {
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[hrClr], hrHand[i]);
+        } else {
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[minClr], minHand[i]);
+        }
+    }
+
+    strlcatf(clockDisp, CLOCK_SIZE, "%stime: %s%02d:%02d:%02d\n", clrs[C], clrs[BK], hrs, mins, secs);
     return clockDisp;
 }

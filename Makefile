@@ -4,7 +4,7 @@ CC=gcc
 
 all: myfelch
 
-myfelch: myfelch.c clock.c clock.h
+myfelch: myfelch.c clock.c clock.h colors.h
 	$(CC) $(CFLAGS) $(LFLAGS) myfelch.c -o myfelch
 
 clean: 
