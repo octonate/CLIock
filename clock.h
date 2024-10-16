@@ -171,7 +171,7 @@ const char minHands[][CLOCK_SIZE] = {"\
 "\
                    \n\
                    \n\
-                  _ \
+                  _\n\
             ___--- \n\
         _o--       \n\
                    \n\
@@ -184,7 +184,7 @@ const char minHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
                    \n\
-       --o--------- \
+       --o---------\n\
                    \n\
                    \n\
                    \n\
@@ -196,7 +196,7 @@ const char minHands[][CLOCK_SIZE] = {"\
                    \n\
         _          \n\
          o--___    \n\
-               ---_ \
+               ---_\n\
                    \n\
                    \n\
                    \n",
