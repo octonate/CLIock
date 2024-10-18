@@ -9,23 +9,29 @@
 #define BUF_SIZE 128
 #define BAT_SIZE 256
 
-char *statuses[] = { "Unknown", "Charging", "Discharging", "Not charging", "Full" };
+char *statuses[] = { "Unknown", "Charging", "Discharging", "Not charging", "Full", "NULLVAL" };
 enum Status {
     UNKNOWN,
     CHARGING,
     DISCHARGING,
     NOT_CHARGING,
-    FULL
+    FULL,
+    NULLVAL
 };
 
 struct PSData {
     enum Status status;
-    int voltageNow;
+    uint voltageNow;
     int powerNow;
     int currentNow;
     int energyFull;
     int energyNow;
     double capacity;
+};
+
+struct Flags {
+    bool battery;
+    bool clock;
 };
 
 int maxInt(int a, int b) {
@@ -61,6 +67,9 @@ void psInit(struct PSData *ps) {
     char line[BUF_SIZE];
     char statusStr[BUF_SIZE];
 
+    ps->status = NULLVAL;
+    ps->voltageNow = -1;
+
     while (fgets(line, BUF_SIZE, fptr)) {
         subStr = strtok(line, "=\n");
         if (strcmp(subStr, "POWER_SUPPLY_STATUS") == 0) {
@@ -81,6 +90,7 @@ void psInit(struct PSData *ps) {
             break;
         }
     }
+
     ps->capacity = (double) 100 * ps->energyNow / ps->energyFull;
     ps->currentNow = (double) 1000000 * ps->powerNow / ps->voltageNow;
     fclose(fptr);
@@ -169,26 +179,49 @@ void printGraphics(char** graphics, int len, int padding) {
 }
 
 
-int main() {
-    //system("clear");
+int main(int argc, char *argv[]) {
+    system("clear");
 
-    time_t t = time(NULL);
-    struct tm curTime = *localtime(&t);
-    char *clockGraphic = genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec);
-    char *clock0_35_28 = genClockGraphic(12, 05, 28);
+    char *clockGraphic;
+    char *batGraphic;
+    char *graphics[2];
 
-    struct PSData supplyData;
-    psInit(&supplyData);
-    char *batGraphic = genBatGraphic(&supplyData);
+    struct Flags flags = { .battery = false, .clock = true };
+    int graphicsLen = 1;
+    for (int i = 0; i < argc; i++) {
+        if (strncmp(argv[i], "-b", BUF_SIZE) == 0 || strncmp(argv[i], "--battery", BUF_SIZE) == 0) {
+            flags.battery = true;
+            graphicsLen++;
+        }
+        if (strncmp(argv[i], "-nc", BUF_SIZE) == 0 || strncmp(argv[i], "--no-clock", BUF_SIZE) == 0) {
+            flags.clock = false;
+            graphicsLen--;
+        }
+    }
 
-    char *graphics[] = { clockGraphic, batGraphic };
-    printGraphics(graphics, sizeof(graphics) / sizeof(graphics[0]), 4);
+    if (flags.clock) {
+        time_t t = time(NULL);
+        struct tm curTime = *localtime(&t);
+        clockGraphic = genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec);
+        graphics[0] = clockGraphic;
+    }
 
-    free(clockGraphic);
-    free(batGraphic);
-    free(clock0_35_28);
+    if (flags.battery) {
+        struct PSData supplyData;
+        psInit(&supplyData);
+        batGraphic = genBatGraphic(&supplyData);
+        graphics[graphicsLen - 1] = batGraphic;
+    }
+    
+
+    printGraphics(graphics, graphicsLen, 4);
+
+    if (flags.clock) 
+        free(clockGraphic);
+    if (flags.battery)
+        free(batGraphic);
+
     printf("\n");
-
     
     return 0;
 }
