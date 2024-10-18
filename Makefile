@@ -2,10 +2,10 @@ CFLAGS = -Wall -pedantic
 LFLAGS = -lm
 CC=gcc
 
-all: myfelch
+all: cliock
 
-myfelch: myfelch.c clock.c clock.h colors.h
-	$(CC) $(CFLAGS) $(LFLAGS) myfelch.c -o myfelch
+cliock: cliock.c clock.c clock.h colors.h
+	$(CC) $(CFLAGS) $(LFLAGS) cliock.c -o cliock
 
 clean: 
-	rm myfelch
+	rm cliock
