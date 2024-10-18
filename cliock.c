@@ -189,11 +189,11 @@ int main(int argc, char *argv[]) {
     struct Flags flags = { .battery = false, .clock = true };
     int graphicsLen = 1;
     for (int i = 0; i < argc; i++) {
-        if (strncmp(argv[i], "-b", BUF_SIZE) == 0 || strncmp(argv[i], "--battery", BUF_SIZE) == 0) {
-            flags.battery = true;
+        if (!flags.battery && (strncmp(argv[i], "-b", BUF_SIZE) == 0 || strncmp(argv[i], "--battery", BUF_SIZE) == 0)) {
             graphicsLen++;
+            flags.battery = true;
         }
-        if (strncmp(argv[i], "-nc", BUF_SIZE) == 0 || strncmp(argv[i], "--no-clock", BUF_SIZE) == 0) {
+        if (flags.clock && (strncmp(argv[i], "-nc", BUF_SIZE) == 0 || strncmp(argv[i], "--no-clock", BUF_SIZE) == 0)) {
             flags.clock = false;
             graphicsLen--;
         }
@@ -216,10 +216,12 @@ int main(int argc, char *argv[]) {
 
     printGraphics(graphics, graphicsLen, 4);
 
-    if (flags.clock) 
+    if (flags.clock) {
         free(clockGraphic);
-    if (flags.battery)
+    }
+    if (flags.battery) {
         free(batGraphic);
+    }
 
     printf("\n");
     
