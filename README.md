@@ -1,12 +1,11 @@
 # CLIock
+<img src="cliock335.png?raw=true" alt="CLIock" align="right" height="240px">
 
 simple terminal ascii clock\
 also can display battery status info
 
-
 ## usage:
-run `cliock [options]`\
-<img src="cliock335.png?raw=true" alt="CLIock" align="right" height="240px">
+run `cliock [options]`
 
 **options:**
 by default the clock is displayed and battery info is not
