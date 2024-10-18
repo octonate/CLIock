@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include "clock.c"
+#include "clock.h"
 #include "colors.h"
 
 #define BUF_SIZE 128
@@ -97,8 +98,7 @@ void psInit(struct PSData *ps) {
 }
 
 
-char *genBatGraphic(struct PSData *ps) {
-    char *batGraphic = malloc(BAT_SIZE * sizeof(char));
+void genBatGraphic(struct PSData *ps, char batGraphic[BAT_SIZE]) {
     enum Color batClr;
     if (ps->capacity > 60) {
         batClr = G;
@@ -138,8 +138,6 @@ char *genBatGraphic(struct PSData *ps) {
     strlcatf(batGraphic, BAT_SIZE, "%.2fW, ", (double) ps->powerNow / 1000000);
     strlcatf(batGraphic, BAT_SIZE, "%.2fV, ", (double) ps->voltageNow / 1000000);
     strlcatf(batGraphic, BAT_SIZE, "%.2fA\n", (double) ps->currentNow / 1000000);
-    
-    return batGraphic;
 }
 
 void printGraphics(char** graphics, int len, int padding) {
@@ -182,8 +180,8 @@ void printGraphics(char** graphics, int len, int padding) {
 int main(int argc, char *argv[]) {
     system("clear");
 
-    char *clockGraphic;
-    char *batGraphic;
+    char clockGraphic[CLOCK_SIZE];
+    char batGraphic[BAT_SIZE];
     char *graphics[2];
 
     struct Flags flags = { .battery = false, .clock = true };
@@ -202,26 +200,18 @@ int main(int argc, char *argv[]) {
     if (flags.clock) {
         time_t t = time(NULL);
         struct tm curTime = *localtime(&t);
-        clockGraphic = genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec);
+        genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec, clockGraphic);
         graphics[0] = clockGraphic;
     }
 
     if (flags.battery) {
         struct PSData supplyData;
         psInit(&supplyData);
-        batGraphic = genBatGraphic(&supplyData);
+        genBatGraphic(&supplyData, batGraphic);
         graphics[graphicsLen - 1] = batGraphic;
     }
     
-
     printGraphics(graphics, graphicsLen, 4);
-
-    if (flags.clock) {
-        free(clockGraphic);
-    }
-    if (flags.battery) {
-        free(batGraphic);
-    }
 
     printf("\n");
     

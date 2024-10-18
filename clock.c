@@ -57,8 +57,7 @@ void flipHor(char str[CLOCK_SIZE]) {
     strncpy(str, flipped, CLOCK_SIZE);
 }
 
-char *genClockGraphic(int hrs, int mins, int secs) {
-    char *clockDisp = calloc(sizeof(char), CLOCK_SIZE);
+void genClockGraphic(int hrs, int mins, int secs, char clockDisp[CLOCK_SIZE]) {
     int hrsStd = hrs % 12;
     char hrHand[CLOCK_SIZE];
     char minHand[CLOCK_SIZE];
@@ -95,5 +94,4 @@ char *genClockGraphic(int hrs, int mins, int secs) {
     }
 
     strlcatf(clockDisp, CLOCK_SIZE, "%stime: %s%02d:%02d:%02d\n", clrs[C], clrs[BK], hrs, mins, secs);
-    return clockDisp;
 }
