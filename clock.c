@@ -62,7 +62,6 @@ void genClockGraphic(int hrs, int mins, int secs, char clockDisp[CLOCK_SIZE]) {
     char minHand[CLOCK_SIZE];
 
     int hrHandPos = (hrs % 12 + (double) mins / 60 + (double) secs / 3600) * 2;
-    printf("hrsDecimal: %d\n", hrHandPos);
     int minHandPos = (int) round((double) (60 * mins + secs) / 150) %  24;
     
     if (minHandPos <= 12) {
