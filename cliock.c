@@ -200,8 +200,8 @@ int main(int argc, char *argv[]) {
     if (flags.clock) {
         time_t t = time(NULL);
         struct tm curTime = *localtime(&t);
-        //genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec, clockGraphic);
-        genClockGraphic(03, 35, 42, clockGraphic);
+        genClockGraphic(curTime.tm_hour, curTime.tm_min, curTime.tm_sec, clockGraphic);
+        //genClockGraphic(03, 35, 42, clockGraphic);
         graphics[0] = clockGraphic;
     }
 
