@@ -41,7 +41,18 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
          ^         \n\
          |         \n\
+         o         \n\
                    \n\
+                   \n\
+                   \n\
+                   \n",
+
+"\
+                   \n\
+                   \n\
+          /        \n\
+         |         \n\
+         o         \n\
                    \n\
                    \n\
                    \n\
@@ -52,7 +63,18 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
            _/      \n\
           /        \n\
+         o         \n\
                    \n\
+                   \n\
+                   \n\
+                   \n",
+
+"\
+                   \n\
+                   \n\
+            _      \n\
+          _-       \n\
+         o         \n\
                    \n\
                    \n\
                    \n\
@@ -63,7 +85,18 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
            __-     \n\
-          -        \n\
+         o-        \n\
+                   \n\
+                   \n\
+                   \n\
+                   \n",
+
+"\
+                   \n\
+                   \n\
+                   \n\
+            __     \n\
+         o--       \n\
                    \n\
                    \n\
                    \n\
@@ -74,7 +107,7 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
                    \n\
-          --->     \n\
+         o--->     \n\
                    \n\
                    \n\
                    \n\
@@ -85,7 +118,18 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
                    \n\
-          -__      \n\
+         o--__     \n\
+                   \n\
+                   \n\
+                   \n\
+                   \n",
+
+"\
+                   \n\
+                   \n\
+                   \n\
+                   \n\
+         o-__      \n\
              -     \n\
                    \n\
                    \n\
@@ -96,7 +140,18 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
                    \n\
+         o_        \n\
+           -_      \n\
                    \n\
+                   \n\
+                   \n",
+
+"\
+                   \n\
+                   \n\
+                   \n\
+                   \n\
+         o         \n\
           \\_       \n\
             \\      \n\
                    \n\
@@ -107,11 +162,23 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
                    \n\
+         o         \n\
+         |         \n\
+          \\        \n\
                    \n\
+                   \n",
+
+"\
+                   \n\
+                   \n\
+                   \n\
+                   \n\
+         o         \n\
          |         \n\
          -         \n\
                    \n\
-                   \n"};
+                   \n",
+};
 
 const char minHands[][CLOCK_SIZE] = {"\
          |         \n\
@@ -206,9 +273,9 @@ const char minHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
         _          \n\
-         o-_       \n\
-            --_    \n\
-               --_ \n\
+         o-__      \n\
+             -__   \n\
+                -_ \n\
                    \n\
                    \n",
 

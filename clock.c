@@ -58,10 +58,11 @@ void flipHor(char str[CLOCK_SIZE]) {
 }
 
 void genClockGraphic(int hrs, int mins, int secs, char clockDisp[CLOCK_SIZE]) {
-    int hrsStd = hrs % 12;
     char hrHand[CLOCK_SIZE];
     char minHand[CLOCK_SIZE];
 
+    int hrHandPos = (hrs % 12 + (double) mins / 60 + (double) secs / 3600) * 2;
+    printf("hrsDecimal: %d\n", hrHandPos);
     int minHandPos = (int) round((double) (60 * mins + secs) / 150) %  24;
     
     if (minHandPos <= 12) {
@@ -71,10 +72,10 @@ void genClockGraphic(int hrs, int mins, int secs, char clockDisp[CLOCK_SIZE]) {
         flipHor(minHand);
     }
 
-    if (hrsStd <= 6) {
-        strncpy(hrHand, hrHands[hrsStd], CLOCK_SIZE);
+    if (hrHandPos <= 12) {
+        strncpy(hrHand, hrHands[hrHandPos], CLOCK_SIZE);
     } else {
-        strncpy(hrHand, hrHands[12 - hrsStd], CLOCK_SIZE);
+        strncpy(hrHand, hrHands[24 - hrHandPos], CLOCK_SIZE);
         flipHor(hrHand);
     }
 
