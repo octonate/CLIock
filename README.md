@@ -14,6 +14,10 @@ by default the clock is displayed and battery info is not
 | -b | --battery | displays battery info |
 | -nc | --no-clock | doesn't display the clock |
 
+### configuration:
+to configure colors, edit `colors.h` file and change the variables corresponding to each color to whatever color you want\
+ex. if you want the hour hand to be bright red, in `colors.h`, the `clockHourHandColor` variable should be set to `BRIGHT_RED`
+
 ### installation:
 1) download repo from github:\
 `git clone https://github.com/octonate/CLIock`
