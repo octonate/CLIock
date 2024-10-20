@@ -25,17 +25,6 @@ const char clockTicks[CLOCK_SIZE] = "\
                     \
     /    |    \\     ";
 
-const char clockBlank[CLOCK_SIZE] = "\
-                   \n\
-                   \n\
-                   \n\
-                   \n\
-                   \n\
-                   \n\
-                   \n\
-                   \n\
-                   \n";
-
 const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
                    \n\
