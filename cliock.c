@@ -101,11 +101,11 @@ void psInit(struct PSData *ps) {
 void genBatGraphic(struct PSData *ps, char batGraphic[BAT_SIZE]) {
     enum Color batClr;
     if (ps->capacity > 60) {
-        batClr = G;
+        batClr = GREEN;
     } else if (ps->capacity > 25) {
-        batClr = Y;
+        batClr = YELLOW;
     } else {
-        batClr = R;
+        batClr = RED;
     }
 
     double timeLeft;
@@ -117,23 +117,23 @@ void genBatGraphic(struct PSData *ps, char batGraphic[BAT_SIZE]) {
     int hrs = floor(timeLeft);
     int mins = 60 * (timeLeft - floor(timeLeft));
 
-    snprintf(batGraphic, BAT_SIZE, "%sbat:\n%s", clrs[C], clrs[Z]);
+    snprintf(batGraphic, BAT_SIZE, "%sbat:\n%s", ansiClrs[highlightTextColor], ansiClrs[DEFAULT]);
 
-    strlcatf(batGraphic, BAT_SIZE, "[%s", clrs[batClr]);
+    strlcatf(batGraphic, BAT_SIZE, "[%s", ansiClrs[batClr]);
     int pipeNum = round((double) ps->capacity / 5);
     for (int i = 0; i < pipeNum; i++) {
         strlcatf(batGraphic, BAT_SIZE, "|");
     }
-    strlcatf(batGraphic, BAT_SIZE, "%s", clrs[Z]);
+    strlcatf(batGraphic, BAT_SIZE, "%s", ansiClrs[DEFAULT]);
     for (int i = 0; i < 20 - pipeNum; i++) {
         strlcatf(batGraphic, BAT_SIZE, "-");
     }
     strlcatf(batGraphic, BAT_SIZE, "]\n");
 
-    strlcatf(batGraphic, BAT_SIZE, "%s%.1f%% %s(%s)\n%s", clrs[C], ps->capacity, clrs[BK], statuses[ps->status], clrs[BK]);
+    strlcatf(batGraphic, BAT_SIZE, "%s%.1f%% %s(%s)\n%s", ansiClrs[highlightTextColor], ps->capacity, ansiClrs[regularTextColor], statuses[ps->status], ansiClrs[regularTextColor]);
 
     if (ps->status != FULL && ps->status != UNKNOWN) {
-        strlcatf(batGraphic, BAT_SIZE, "%02d:%02d until %s\n%s", hrs, mins, ps->status == CHARGING ? "full" : "depleted", clrs[BK]);
+        strlcatf(batGraphic, BAT_SIZE, "%02d:%02d until %s\n%s", hrs, mins, ps->status == CHARGING ? "full" : "depleted", ansiClrs[regularTextColor]);
     }
     strlcatf(batGraphic, BAT_SIZE, "%.2fW, ", (double) ps->powerNow / 1000000);
     strlcatf(batGraphic, BAT_SIZE, "%.2fV, ", (double) ps->voltageNow / 1000000);
@@ -169,7 +169,7 @@ void printGraphics(char** graphics, int len, int padding) {
                 printf("%s", graphics[i]);
                 graphics[i] += strlen(graphics[i]) + 1;
             }
-            printf("%s%*s", clrs[Z], maxLineWidths[i] - curWidth + padding, "");
+            printf("%s%*s", ansiClrs[DEFAULT], maxLineWidths[i] - curWidth + padding, "");
         }
 
         printf("\n");

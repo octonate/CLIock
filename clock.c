@@ -7,11 +7,6 @@
 #include "clock.h"
 #include "colors.h"
 
-const enum Color hrClr = C;
-const enum Color minClr = G;
-const enum Color centerClr = BK;
-const enum Color frameClr = K;
-const enum Color tickClr = BK;
 
 
 size_t strlcatf(char *dst, size_t size, const char *fmt, ...) {
@@ -81,17 +76,17 @@ void genClockGraphic(int hrs, int mins, int secs, char clockDisp[CLOCK_SIZE]) {
     
     for (int i = 0; i < strlen(hrHand); i++) {
         if (clockFrame[i] == 'o') {
-            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[centerClr], clockFrame[i]);
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", ansiClrs[clockCenterColor], clockFrame[i]);
         } else if (hrHand[i] != ' ') {
-            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[hrClr], hrHand[i]);
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", ansiClrs[clockHourHandColor], hrHand[i]);
         } else if (minHand[i] != ' ') {
-            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[minClr], minHand[i]);
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", ansiClrs[clockMinHandColor], minHand[i]);
         } else if (clockTicks[i] != ' ') {
-            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[tickClr], clockTicks[i]);
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", ansiClrs[clockTickMarkColor], clockTicks[i]);
         } else {
-            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", clrs[frameClr], clockFrame[i]);
+            strlcatf(clockDisp, CLOCK_SIZE, "%s%c", ansiClrs[clockFrameColor], clockFrame[i]);
         } 
     }
 
-    strlcatf(clockDisp, CLOCK_SIZE, "%stime: %s%02d:%02d:%02d\n", clrs[C], clrs[BK], hrs, mins, secs);
+    strlcatf(clockDisp, CLOCK_SIZE, "%stime: %s%02d:%02d:%02d\n", ansiClrs[highlightTextColor], ansiClrs[regularTextColor], hrs, mins, secs);
 }

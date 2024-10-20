@@ -1,7 +1,38 @@
 #ifndef COLORS_H
 #define COLORS_H
 
-const char *clrs[] = {
+enum Color {
+    DEFAULT,
+    BLACK,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYAN,
+    WHITE,
+    BRIGHT_BLACK,
+    BRIGHT_RED,
+    BRIGHT_GREEN,
+    BRIGHT_YELLOW,
+    BRIGHT_BLUE,
+    BRIGHT_MAGENTA,
+    BRIGHT_CYAN,
+    BRIGHT_WHITE
+};
+
+/* CHANGE THESE TO WHATEVER COLORS YOU WANT, AVAILABLE COLORS ARE SHOWN ABOVE */
+const enum Color highlightTextColor = CYAN; 
+const enum Color regularTextColor = BRIGHT_BLACK; 
+
+const enum Color clockHourHandColor = CYAN;
+const enum Color clockMinHandColor = GREEN;
+const enum Color clockCenterColor = BRIGHT_BLACK;
+const enum Color clockFrameColor = BLACK;
+const enum Color clockTickMarkColor = BRIGHT_BLACK;
+/*----------------------------------------------------------------------------*/
+
+const char *ansiClrs[] = {
     "\033[0m",
     "\033[30m",
     "\033[31m",
@@ -20,6 +51,5 @@ const char *clrs[] = {
     "\033[96m",
     "\033[97m",
 };
-enum Color { Z, K, R, G, Y, B, M, C, W, BK, BR, BG, BY, BB, BM, BC, BW };
 
 #endif //COLORS_H
