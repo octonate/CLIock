@@ -17,7 +17,6 @@ enum Status {
     DISCHARGING,
     NOT_CHARGING,
     FULL,
-    NULLVAL
 };
 
 struct PSData {
@@ -68,9 +67,6 @@ void psInit(struct PSData *ps) {
     char line[BUF_SIZE];
     char statusStr[BUF_SIZE];
 
-    ps->status = NULLVAL;
-    ps->voltageNow = -1;
-
     while (fgets(line, BUF_SIZE, fptr)) {
         subStr = strtok(line, "=\n");
         if (strcmp(subStr, "POWER_SUPPLY_STATUS") == 0) {
@@ -111,7 +107,7 @@ void genBatGraphic(struct PSData *ps, char batGraphic[BAT_SIZE]) {
     double timeLeft;
     if (ps->status == CHARGING) {
         timeLeft = (double) (ps->energyFull - ps->energyNow) / ps->powerNow;
-    } else if (ps->status == DISCHARGING || ps->status == NOT_CHARGING) {
+    } else if (ps->status == DISCHARGING) {
         timeLeft = (double) ps->energyNow / ps->powerNow;
     }
     int hrs = floor(timeLeft);
@@ -132,7 +128,7 @@ void genBatGraphic(struct PSData *ps, char batGraphic[BAT_SIZE]) {
 
     strlcatf(batGraphic, BAT_SIZE, "%s%.1f%% %s(%s)\n%s", ansiClrs[highlightTextColor], ps->capacity, ansiClrs[regularTextColor], statuses[ps->status], ansiClrs[regularTextColor]);
 
-    if (ps->status != FULL && ps->status != UNKNOWN) {
+    if (ps->status == CHARGING || ps->status == DISCHARGING) {
         strlcatf(batGraphic, BAT_SIZE, "%02d:%02d until %s\n%s", hrs, mins, ps->status == CHARGING ? "full" : "depleted", ansiClrs[regularTextColor]);
     }
     strlcatf(batGraphic, BAT_SIZE, "%.2fW, ", (double) ps->powerNow / 1000000);
