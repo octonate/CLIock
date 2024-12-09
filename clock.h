@@ -164,7 +164,7 @@ const char hrHands[][CLOCK_SIZE] = {"\
                    \n\
          o         \n\
          |         \n\
-         -         \n\
+         v         \n\
                    \n\
                    \n",
 };
