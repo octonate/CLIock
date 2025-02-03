@@ -11,7 +11,7 @@
 
 size_t strlcatf(char *dst, size_t size, const char *fmt, ...) {
     va_list args;
-    size_t dstLen = strnlen(dst, size);
+    size_t dstLen = strlen(dst);
     char *fmtPos = dst + strlen(dst);
     va_start(args, fmt);
     size_t fmtLen = vsnprintf(fmtPos, size - strlen(dst), fmt, args);

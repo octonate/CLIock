@@ -21,7 +21,7 @@ enum Status {
 
 struct PSData {
     enum Status status;
-    uint voltageNow;
+    unsigned int voltageNow;
     int powerNow;
     int currentNow;
     int energyFull;
