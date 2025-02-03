@@ -74,7 +74,7 @@ void genClockGraphic(int hrs, int mins, int secs, char clockDisp[CLOCK_SIZE]) {
     }
 
     
-    for (int i = 0; i < strlen(hrHand); i++) {
+    for (size_t i = 0; i < strlen(hrHand); i++) {
         if (clockFrame[i] == 'o') {
             strlcatf(clockDisp, CLOCK_SIZE, "%s%c", ansiClrs[clockCenterColor], clockFrame[i]);
         } else if (hrHand[i] != ' ') {

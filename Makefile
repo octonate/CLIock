@@ -1,4 +1,4 @@
-CFLAGS = -Wall -pedantic -std=c99
+CFLAGS = -Wall -Wextra -Werror -pedantic -std=c99
 LFLAGS = -lm
 BINDIR = /usr/bin
 CC=gcc

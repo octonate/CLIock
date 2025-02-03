@@ -41,7 +41,7 @@ int maxInt(int a, int b) {
 int strWidth(char *str) {
     int extraCount = 0;
     bool escaped = false;
-    for (int i = 0; i < strlen(str); i++) {
+    for (size_t i = 0; i < strlen(str); i++) {
         if (str[i] == '\033') {
             escaped = true;
         } 
