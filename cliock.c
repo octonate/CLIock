@@ -136,9 +136,11 @@ void genBatGraphic(struct PSData *ps, char batGraphic[BAT_SIZE]) {
     strlcatf(batGraphic, BAT_SIZE, "%.2fA\n", (double) ps->currentNow / 1000000);
 }
 
-void printGraphics(char** graphics, int len, int padding) {
+void printGraphics(char **graphics, int len, int padding) {
     int maxLineWidths[len];
     int lineCounts[len];
+    memset(maxLineWidths, 0, sizeof(maxLineWidths));
+    memset(lineCounts, 0, sizeof(lineCounts));
     int maxLineCount = 0;
 
     for (int i = 0; i < len; i++) {
@@ -176,7 +178,7 @@ void printGraphics(char** graphics, int len, int padding) {
 int main(int argc, char *argv[]) {
     system("clear");
 
-    char clockGraphic[CLOCK_SIZE];
+    char clockGraphic[CLOCK_SIZE] = {0};
     char batGraphic[BAT_SIZE];
     char *graphics[2];
 
